@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
+import path from 'path';
 import config from './config/index.js';
 import authRoutes from './routes/auth.js';
 import empresaRoutes from './routes/empresa.js';
@@ -26,6 +27,12 @@ app.use('/api/auth', authRoutes);
 app.use('/api/empresas', empresaRoutes);
 app.use('/api', carretillaRoutes);
 app.use('/api', mantenimientoRoutes);
+
+app.use(express.static(path.join(process.cwd(), '../client/dist')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(process.cwd(), '../client/dist/index.html'));
+});
 
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);
