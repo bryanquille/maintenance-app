@@ -26,9 +26,9 @@ export const CarretillasPage: React.FC = () => {
     nroSerie: '',
     modelo: '',
     idMaquina: '',
-    tipoDeServicio: 'usado' as const,
+    tipoDeServicio: 'usado' as 'nuevo' | 'usado',
     tiempoUsoOperacion: 0,
-    estado: 'activa' as const,
+    estado: 'activa' as 'activa' | 'inactiva' | 'mantenimiento',
   });
 
   useEffect(() => {

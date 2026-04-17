@@ -1,7 +1,7 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Document, Types } from 'mongoose';
 import type { ICarretilla } from '../types/index.js';
 
-export interface ICarretillaDocument extends ICarretilla, Document {}
+export interface ICarretillaDocument extends ICarretilla, Document<Types.ObjectId> {}
 
 const carretillaSchema = new Schema<ICarretillaDocument>(
   {

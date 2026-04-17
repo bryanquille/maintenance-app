@@ -21,7 +21,7 @@ export const EmpresasPage: React.FC = () => {
     telefono: '',
     correo: '',
     direccion: '',
-    estado: 'activa' as const,
+    estado: 'activa' as 'activa' | 'inactiva',
   });
 
   useEffect(() => {

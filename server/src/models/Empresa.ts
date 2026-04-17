@@ -1,7 +1,7 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Document, Types } from 'mongoose';
 import type { IEmpresa } from '../types/index.js';
 
-export interface IEmpresaDocument extends IEmpresa, Document {}
+export interface IEmpresaDocument extends IEmpresa, Document<Types.ObjectId> {}
 
 const empresaSchema = new Schema<IEmpresaDocument>(
   {

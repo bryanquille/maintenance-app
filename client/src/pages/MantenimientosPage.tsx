@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
 import { carretillaApi, mantenimientoApi } from '../services/api';
-import { Button, Input, Card, Modal, ConfirmModal, Table, Badge, Loader, EmptyState, ErrorMessage, Select, Textarea, Checkbox } from '../components';
+import { Button, Input, Card, Modal, ConfirmModal, Table, Loader, EmptyState, ErrorMessage, Textarea, Checkbox } from '../components';
 import type { Carretilla, Mantenimiento, MantenimientoPreventivo, MantenimientoCorrectivo } from '../types';
 
 const preventivoOptions: { key: keyof MantenimientoPreventivo; label: string }[] = [

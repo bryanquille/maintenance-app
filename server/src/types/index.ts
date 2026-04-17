@@ -1,16 +1,18 @@
+import { Types } from 'mongoose';
+
 export interface IUser {
-  _id: string;
+  _id: Types.ObjectId;
   email: string;
   password: string;
-  rol: 'admin' | 'tecnico' | 'lecto';
-  empresaId?: string;
+  rol: 'admin' | 'tecnico' | 'lector';
+  empresaId?: Types.ObjectId;
   nombre: string;
   createdAt: Date;
   updatedAt: Date;
 }
 
 export interface IEmpresa {
-  _id: string;
+  _id: Types.ObjectId;
   nombre: string;
   identificacionFiscal?: string;
   contacto?: string;
@@ -23,8 +25,8 @@ export interface IEmpresa {
 }
 
 export interface ICarretilla {
-  _id: string;
-  empresaId: string;
+  _id: Types.ObjectId;
+  empresaId: Types.ObjectId;
   fecha: Date;
   tipoDeMaquina: string;
   nroSerie: string;
@@ -40,9 +42,9 @@ export interface ICarretilla {
 }
 
 export interface IMantenimiento {
-  _id: string;
-  empresaId: string;
-  carretillaId: string;
+  _id: Types.ObjectId;
+  empresaId: Types.ObjectId;
+  carretillaId: Types.ObjectId;
   fecha: Date;
   tipoServicio: string;
   descripcionGeneral: string;
@@ -77,7 +79,7 @@ export interface IMantenimiento {
 export interface JWTPayload {
   userId: string;
   email: string;
-  rol: 'admin' | 'tecnico' | 'lecto';
+  rol: 'admin' | 'tecnico' | 'lector';
   empresaId?: string;
 }
 

@@ -1,7 +1,7 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Document, Types } from 'mongoose';
 import type { IMantenimiento } from '../types/index.js';
 
-export interface IMantenimientoDocument extends IMantenimiento, Document {}
+export interface IMantenimientoDocument extends IMantenimiento, Document<Types.ObjectId> {}
 
 const mantenimientoSchema = new Schema<IMantenimientoDocument>(
   {

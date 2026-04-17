@@ -1,7 +1,7 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Document, Types } from 'mongoose';
 import type { IUser } from '../types/index.js';
 
-export interface IUserDocument extends IUser, Document {}
+export interface IUserDocument extends IUser, Document<Types.ObjectId> {}
 
 const userSchema = new Schema<IUserDocument>(
   {

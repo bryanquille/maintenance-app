@@ -14,7 +14,7 @@ interface TableProps<T> {
   onRowClick?: (item: T) => void;
 }
 
-export function Table<T extends Record<string, unknown>>({ data, columns, loading, emptyMessage = 'No hay datos', onRowClick }: TableProps<T>) {
+export function Table<T>({ data, columns, loading, emptyMessage = 'No hay datos', onRowClick }: TableProps<T>) {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
@@ -33,6 +33,11 @@ export function Table<T extends Record<string, unknown>>({ data, columns, loadin
       </div>
     );
   }
+
+  const getValue = (item: T, key: string): unknown => {
+    const k = key as keyof T;
+    return item[k] as unknown;
+  };
 
   return (
     <div className="overflow-x-auto">
@@ -60,7 +65,7 @@ export function Table<T extends Record<string, unknown>>({ data, columns, loadin
                 <td key={column.key} className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                   {column.render
                     ? column.render(item)
-                    : String(item[column.key] ?? '-')}
+                    : String(getValue(item, column.key) ?? '-')}
                 </td>
               ))}
             </tr>
