@@ -8,10 +8,12 @@ export const RegisterPage: React.FC = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
+    confirmPassword: '',
     nombre: '',
     rol: 'tecnico',
   });
   const [error, setError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   const [loading, setLoading] = useState(false);
   const { login } = useAuthStore();
   const navigate = useNavigate();
@@ -23,6 +25,13 @@ export const RegisterPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setPasswordError('');
+
+    if (formData.password !== formData.confirmPassword) {
+      setPasswordError('Las contraseñas no coinciden');
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -89,6 +98,18 @@ export const RegisterPage: React.FC = () => {
               onChange={handleChange}
               required
               placeholder="••••••••"
+              showToggle
+            />
+
+            <Input
+              label="Confirmar Password"
+              type="password"
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              required
+              placeholder="••••••••"
+              error={passwordError}
             />
 
             <Select

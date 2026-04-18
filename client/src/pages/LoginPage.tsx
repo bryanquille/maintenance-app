@@ -66,6 +66,7 @@ export const LoginPage: React.FC = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
               placeholder="••••••••"
+              showToggle
             />
 
             <Button type="submit" loading={loading} className="w-full">
