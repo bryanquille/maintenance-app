@@ -2,11 +2,19 @@ import { Request, Response } from 'express';
 import { authService } from '../services/index.js';
 import { registerSchema, loginSchema } from '../validators/index.js';
 import type { AuthRequest } from '../middlewares/index.js';
+import type { RegisterInput } from '../validators/auth.js';
 
 export const register = async (req: Request, res: Response): Promise<void> => {
   try {
     const data = registerSchema.parse(req.body);
-    const result = await authService.register(data);
+
+    if (data.password !== data.confirmPassword) {
+      res.status(400).json({ success: false, error: 'Las contraseñas no coinciden' });
+      return;
+    }
+
+    const { confirmPassword: _, ...registerData } = data;
+    const result = await authService.register(registerData as RegisterInput);
     res.status(201).json({
       success: true,
       data: {

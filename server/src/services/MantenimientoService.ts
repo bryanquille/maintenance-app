@@ -35,8 +35,12 @@ export class MantenimientoService {
     return mantenimientos;
   }
 
-  async getByCarretilla(carretillaId: string): Promise<IMantenimientoDocument[]> {
-    return MantenimientoModel.find({ carretillaId })
+  async getByCarretilla(carretillaId: string, empresaId?: string): Promise<IMantenimientoDocument[]> {
+    const query: Record<string, unknown> = { carretillaId };
+    if (empresaId) {
+      query.empresaId = empresaId;
+    }
+    return MantenimientoModel.find(query)
       .populate('carretillaId', 'tipoDeMaquina modelo nroSerie idMaquina')
       .sort({ fecha: -1 });
   }

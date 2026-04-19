@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
 import { mantenimientoService } from '../services/index.js';
 import { createMantenimientoSchema, updateMantenimientoSchema, mantenimientoFilterSchema } from '../validators/index.js';
+import type { AuthRequest } from '../middlewares/index.js';
 
-export const getMantenimientosByEmpresa = async (req: Request, res: Response): Promise<void> => {
+export const getMantenimientosByEmpresa = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const { empresaId } = req.params;
     const filters = req.query.fechaDesde || req.query.fechaHasta || req.query.tipoServicio || req.query.responsable
@@ -25,10 +26,11 @@ export const getMantenimientosByEmpresa = async (req: Request, res: Response): P
   }
 };
 
-export const getMantenimientosByCarretilla = async (req: Request, res: Response): Promise<void> => {
+export const getMantenimientosByCarretilla = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const { carretillaId } = req.params;
-    const mantenimientos = await mantenimientoService.getByCarretilla(carretillaId);
+    const empresaId = req.user?.rol !== 'admin' ? req.user?.empresaId : undefined;
+    const mantenimientos = await mantenimientoService.getByCarretilla(carretillaId, empresaId ?? undefined);
     res.status(200).json({
       success: true,
       data: mantenimientos,

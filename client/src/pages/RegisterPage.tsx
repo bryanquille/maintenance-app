@@ -4,6 +4,13 @@ import { useAuthStore } from '../store/authStore';
 import { authApi } from '../services/api';
 import { Button, Input, Card, Select } from '../components';
 
+const PASSWORD_REQUIREMENTS = [
+  { label: 'Mínimo 8 caracteres', test: (pwd: string) => pwd.length >= 8 },
+  { label: 'Al menos una mayúscula (A-Z)', test: (pwd: string) => /[A-Z]/.test(pwd) },
+  { label: 'Al menos un número (0-9)', test: (pwd: string) => /\d/.test(pwd) },
+  { label: 'Al menos un carácter especial (@$!%*?&)', test: (pwd: string) => /[@$!%*?&]/.test(pwd) },
+];
+
 export const RegisterPage: React.FC = () => {
   const [formData, setFormData] = useState({
     email: '',
@@ -15,8 +22,14 @@ export const RegisterPage: React.FC = () => {
   const [error, setError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPasswordReqs, setShowPasswordReqs] = useState(false);
   const { login } = useAuthStore();
   const navigate = useNavigate();
+
+  const passwordChecks = PASSWORD_REQUIREMENTS.map((req) => ({
+    ...req,
+    met: req.test(formData.password),
+  }));
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -38,6 +51,7 @@ export const RegisterPage: React.FC = () => {
       const response = await authApi.register(
         formData.email,
         formData.password,
+        formData.confirmPassword,
         formData.nombre,
         formData.rol
       );
@@ -90,16 +104,56 @@ export const RegisterPage: React.FC = () => {
               placeholder="correo@ejemplo.com"
             />
 
-            <Input
-              label="Password"
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-              placeholder="••••••••"
-              showToggle
-            />
+            <div className="relative">
+              <Input
+                label="Password"
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={(e) => {
+                  handleChange(e);
+                  setShowPasswordReqs(true);
+                }}
+                onFocus={() => setShowPasswordReqs(true)}
+                required
+                placeholder="••••••••"
+                showToggle
+              />
+              {showPasswordReqs && formData.password && (
+                <div className="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-md shadow-lg p-3">
+                  <p className="text-xs font-medium text-gray-700 mb-2">Requisitos de contraseña:</p>
+                  <ul className="space-y-1">
+                    {passwordChecks.map((req, idx) => (
+                      <li
+                        key={idx}
+                        className={`text-xs flex items-center gap-1 ${
+                          req.met ? 'text-green-600' : 'text-gray-500'
+                        }`}
+                      >
+                        {req.met ? (
+                          <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                              fillRule="evenodd"
+                              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                        ) : (
+                          <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                              fillRule="evenodd"
+                              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                        )}
+                        {req.label}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
 
             <Input
               label="Confirmar Password"

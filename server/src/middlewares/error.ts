@@ -6,17 +6,26 @@ export interface AppError extends Error {
 }
 
 export const errorMiddleware = (err: AppError, req: Request, res: Response, _next: NextFunction): void => {
-  console.error('Error:', err.message);
-  console.error('Stack:', err.stack);
+  const isDevelopment = process.env.NODE_ENV !== 'production';
+
+  if (isDevelopment) {
+    console.error('Error:', err.message);
+    console.error('Stack:', err.stack);
+  }
 
   const statusCode = err.statusCode || 500;
-  const status = err.status || 'error';
 
-  res.status(statusCode).json({
-    success: false,
-    error: err.message || 'Error interno del servidor',
-    status,
-  });
+  if (statusCode === 500) {
+    res.status(500).json({
+      success: false,
+      error: 'Error interno del servidor',
+    });
+  } else {
+    res.status(statusCode).json({
+      success: false,
+      error: err.message,
+    });
+  }
 };
 
 export const notFoundMiddleware = (req: Request, res: Response): void => {
