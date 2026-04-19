@@ -104,6 +104,17 @@ export const EmpresasPage: React.FC = () => {
     try {
       await empresaApi.delete(selectedEmpresa._id);
       setIsDeleteModalOpen(false);
+
+      const { empresaActiva, setEmpresaActiva } = useAuthStore.getState();
+      if (empresaActiva?._id === selectedEmpresa._id) {
+        const response = await empresaApi.getAll();
+        if (response.data && response.data.length > 0) {
+          setEmpresaActiva(response.data[0]);
+        } else {
+          setEmpresaActiva(null);
+        }
+      }
+
       loadEmpresas();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error al eliminar');

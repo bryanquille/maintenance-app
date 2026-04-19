@@ -21,7 +21,7 @@ export const DashboardPage: React.FC = () => {
     if (empresaActiva) {
       loadData();
     }
-  }, [empresaActiva]);
+  }, [empresaActiva?._id]);
 
   const loadEmpresas = async () => {
     try {
