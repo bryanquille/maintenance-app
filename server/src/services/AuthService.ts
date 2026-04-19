@@ -1,22 +1,43 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { Types } from 'mongoose';
 import { UserModel } from '../models/index.js';
 import type { IUserDocument } from '../models/Usuario.js';
 import type { RegisterInput, LoginInput } from '../validators/auth.js';
 import type { JWTPayload } from '../types/index.js';
 
+interface RegisterWithInviteData {
+  email: string;
+  nombre: string;
+  rol: 'admin' | 'tecnico' | 'lector';
+  empresaId: string;
+}
+
 export class AuthService {
-  async register(data: RegisterInput): Promise<{ user: IUserDocument; token: string }> {
+  async register(data: RegisterInput, inviteData?: RegisterWithInviteData): Promise<{ user: IUserDocument; token: string }> {
     const existingUser = await UserModel.findOne({ email: data.email });
     if (existingUser) {
       throw new Error('El email ya está registrado');
     }
 
     const hashedPassword = await bcrypt.hash(data.password, 10);
-    const user = await UserModel.create({
-      ...data,
-      password: hashedPassword,
-    });
+
+    const userData = inviteData
+      ? {
+          email: data.email,
+          password: hashedPassword,
+          nombre: inviteData.nombre,
+          rol: inviteData.rol,
+          empresaId: new Types.ObjectId(inviteData.empresaId),
+        }
+      : {
+          email: data.email,
+          password: hashedPassword,
+          nombre: 'Usuario',
+          rol: 'tecnico' as const,
+        };
+
+    const user = await UserModel.create(userData);
 
     const token = this.generateToken(user);
     return { user, token };

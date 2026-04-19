@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { authService } from '../services/index.js';
+import { authService, inviteService } from '../services/index.js';
 import { registerSchema, loginSchema } from '../validators/index.js';
 import type { AuthRequest } from '../middlewares/index.js';
 import type { RegisterInput } from '../validators/auth.js';
@@ -13,8 +13,22 @@ export const register = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    const { confirmPassword: _, ...registerData } = data;
-    const result = await authService.register(registerData as RegisterInput);
+    const invite = await inviteService.validateCodigo(data.email, data.codigoRegistro);
+    if (!invite) {
+      res.status(400).json({ success: false, error: 'Código de registro inválido o ya usado' });
+      return;
+    }
+
+    await inviteService.markAsUsed(data.codigoRegistro);
+
+    const inviteData = {
+      email: invite.email,
+      nombre: invite.nombre,
+      rol: invite.rol,
+      empresaId: invite.empresaId.toString(),
+    };
+
+    const result = await authService.register(data as RegisterInput, inviteData);
     res.status(201).json({
       success: true,
       data: {

@@ -20,11 +20,11 @@ const handleResponse = async <T>(response: Response): Promise<T> => {
 };
 
 export const authApi = {
-  register: async (email: string, password: string, confirmPassword: string, nombre: string, rol?: string, empresaId?: string) => {
+  register: async (email: string, password: string, confirmPassword: string, codigoRegistro: string) => {
     const response = await fetch(`${API_URL}/auth/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password, confirmPassword, nombre, rol, empresaId }),
+      body: JSON.stringify({ email, password, confirmPassword, codigoRegistro }),
     });
     return handleResponse<import('../types/index').AuthResponse>(response);
   },

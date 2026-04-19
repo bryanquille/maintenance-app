@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
 import { authApi } from '../services/api';
-import { Button, Input, Card, Select } from '../components';
+import { Button, Input, Card } from '../components';
 
 const PASSWORD_REQUIREMENTS = [
   { label: 'Mínimo 8 caracteres', test: (pwd: string) => pwd.length >= 8 },
@@ -12,12 +12,12 @@ const PASSWORD_REQUIREMENTS = [
 ];
 
 export const RegisterPage: React.FC = () => {
+  const [searchParams] = useSearchParams();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
     confirmPassword: '',
-    nombre: '',
-    rol: 'tecnico',
+    codigoRegistro: '',
   });
   const [error, setError] = useState('');
   const [passwordError, setPasswordError] = useState('');
@@ -30,6 +30,21 @@ export const RegisterPage: React.FC = () => {
     ...req,
     met: req.test(formData.password),
   }));
+
+  useEffect(() => {
+    const code = searchParams.get('code');
+    const email = searchParams.get('email');
+
+    if (code || email) {
+      setFormData(prev => ({
+        ...prev,
+        codigoRegistro: code || prev.codigoRegistro,
+        email: email || prev.email,
+      }));
+    }
+  }, [searchParams]);
+
+  const isPreFilled = searchParams.has('code') || searchParams.has('email');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -52,8 +67,7 @@ export const RegisterPage: React.FC = () => {
         formData.email,
         formData.password,
         formData.confirmPassword,
-        formData.nombre,
-        formData.rol
+        formData.codigoRegistro
       );
       if (response.success && response.data) {
         login(response.data.user, response.data.token);
@@ -86,15 +100,6 @@ export const RegisterPage: React.FC = () => {
             )}
 
             <Input
-              label="Nombre completo"
-              name="nombre"
-              value={formData.nombre}
-              onChange={handleChange}
-              required
-              placeholder="Juan Pérez"
-            />
-
-            <Input
               label="Email"
               type="email"
               name="email"
@@ -102,6 +107,21 @@ export const RegisterPage: React.FC = () => {
               onChange={handleChange}
               required
               placeholder="correo@ejemplo.com"
+              readOnly={isPreFilled}
+              disabled={isPreFilled}
+              className={isPreFilled ? 'bg-gray-100 cursor-not-allowed' : ''}
+            />
+
+            <Input
+              label="Código de registro"
+              name="codigoRegistro"
+              value={formData.codigoRegistro}
+              onChange={handleChange}
+              required
+              placeholder="Ingresa tu código de invitación"
+              readOnly={isPreFilled}
+              disabled={isPreFilled}
+              className={isPreFilled ? 'bg-gray-100 cursor-not-allowed' : ''}
             />
 
             <div className="relative">
@@ -164,17 +184,6 @@ export const RegisterPage: React.FC = () => {
               required
               placeholder="••••••••"
               error={passwordError}
-            />
-
-            <Select
-              label="Rol"
-              name="rol"
-              value={formData.rol}
-              onChange={handleChange}
-              options={[
-                { value: 'tecnico', label: 'Técnico' },
-                { value: 'lector', label: 'Lector' },
-              ]}
             />
 
             <Button type="submit" loading={loading} className="w-full">

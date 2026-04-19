@@ -29,9 +29,14 @@ export const Header: React.FC = () => {
                   Dashboard
                 </Link>
                 {user.rol === 'admin' && (
-                  <Link to="/empresas" className="text-gray-600 hover:text-gray-900 transition-colors">
-                    Empresas
-                  </Link>
+                  <>
+                    <Link to="/empresas" className="text-gray-600 hover:text-gray-900 transition-colors">
+                      Empresas
+                    </Link>
+                    <Link to="/invites" className="text-gray-600 hover:text-gray-900 transition-colors">
+                      Invitaciones
+                    </Link>
+                  </>
                 )}
               </nav>
             )}

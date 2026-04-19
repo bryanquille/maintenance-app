@@ -8,6 +8,7 @@ import authRoutes from './routes/auth.js';
 import empresaRoutes from './routes/empresa.js';
 import carretillaRoutes from './routes/carretilla.js';
 import mantenimientoRoutes from './routes/mantenimiento.js';
+import inviteRoutes from './routes/invite.js';
 import { errorMiddleware, notFoundMiddleware } from './middlewares/index.js';
 
 const app = express();
@@ -27,6 +28,7 @@ app.get('/health', (req, res) => {
 
 app.use('/api/auth', authRoutes);
 app.use('/api/empresas', empresaRoutes);
+app.use('/api/invites', inviteRoutes);
 app.use('/api', carretillaRoutes);
 app.use('/api', mantenimientoRoutes);
 

@@ -19,9 +19,7 @@ export const registerSchema = z.object({
   email: z.string().email('Email inválido'),
   password: passwordValidation,
   confirmPassword: z.string(),
-  nombre: z.string().min(2, 'Nombre debe tener al menos 2 caracteres'),
-  rol: z.enum(['admin', 'tecnico', 'lector']).optional().default('tecnico'),
-  empresaId: z.string().optional(),
+  codigoRegistro: z.string().min(1, 'Código de registro es requerido'),
 });
 
 export const loginSchema = z.object({
