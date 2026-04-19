@@ -56,3 +56,11 @@ export const empresaMiddleware = (req: AuthRequest, res: Response, next: NextFun
 
   next();
 };
+
+export const lectorMiddleware = (req: AuthRequest, res: Response, next: NextFunction): void => {
+  if (req.user?.rol === 'lector') {
+    res.status(403).json({ success: false, error: 'Acceso no autorizado' });
+    return;
+  }
+  next();
+};

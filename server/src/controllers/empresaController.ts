@@ -1,10 +1,24 @@
 import { Request, Response } from 'express';
 import { empresaService } from '../services/index.js';
 import { createEmpresaSchema, updateEmpresaSchema } from '../validators/index.js';
+import type { AuthRequest } from '../middlewares/index.js';
 
-export const getAllEmpresas = async (req: Request, res: Response): Promise<void> => {
+export const getAllEmpresas = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const empresas = await empresaService.getAll();
+    const user = req.user;
+    let empresas: unknown[];
+
+    if (user?.rol !== 'admin') {
+      if (user?.empresaId) {
+        const empresa = await empresaService.getById(user.empresaId);
+        empresas = empresa ? [empresa] : [];
+      } else {
+        empresas = [];
+      }
+    } else {
+      empresas = await empresaService.getAll();
+    }
+
     res.status(200).json({
       success: true,
       data: empresas,
@@ -15,9 +29,17 @@ export const getAllEmpresas = async (req: Request, res: Response): Promise<void>
   }
 };
 
-export const getEmpresaById = async (req: Request, res: Response): Promise<void> => {
+export const getEmpresaById = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const empresa = await empresaService.getById(req.params.id);
+    const user = req.user;
+    const empresaId = req.params.id;
+
+    if (user?.rol !== 'admin' && user?.empresaId !== empresaId) {
+      res.status(403).json({ success: false, error: 'No tienes acceso a esta empresa' });
+      return;
+    }
+
+    const empresa = await empresaService.getById(empresaId);
     if (!empresa) {
       res.status(404).json({ success: false, error: 'Empresa no encontrada' });
       return;
