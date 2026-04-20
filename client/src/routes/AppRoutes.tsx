@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
 import { authApi } from '../services/api';
 import { Header, Loader } from '../components';
-import { LoginPage, RegisterPage, DashboardPage, EmpresasPage, CarretillasPage, MantenimientosPage, InvitesPage } from '../pages';
+import { LandingPage, LoginPage, RegisterPage, DashboardPage, EmpresasPage, CarretillasPage, MantenimientosPage, InvitesPage } from '../pages';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated } = useAuthStore();
@@ -18,6 +18,12 @@ const AdminRoute = ({ children }: { children: React.ReactNode }) => {
 };
 
 const PublicRoute = ({ children }: { children: React.ReactNode }) => {
+  const { isAuthenticated } = useAuthStore();
+  if (isAuthenticated) return <Navigate to="/dashboard" replace />;
+  return <>{children}</>;
+};
+
+const LandingRoute = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated } = useAuthStore();
   if (isAuthenticated) return <Navigate to="/dashboard" replace />;
   return <>{children}</>;
@@ -49,6 +55,7 @@ export const AppRoutes: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<LandingRoute><LandingPage /></LandingRoute>} />
         <Route path="/login" element={<PublicRoute><LoginPage /></PublicRoute>} />
         <Route path="/register" element={<PublicRoute><RegisterPage /></PublicRoute>} />
         <Route path="/dashboard" element={<ProtectedRoute><AppLayout><DashboardPage /></AppLayout></ProtectedRoute>} />
@@ -56,7 +63,7 @@ export const AppRoutes: React.FC = () => {
         <Route path="/carretillas" element={<ProtectedRoute><AppLayout><CarretillasPage /></AppLayout></ProtectedRoute>} />
         <Route path="/carretillas/:carretillaId/mantenimientos" element={<ProtectedRoute><AppLayout><MantenimientosPage /></AppLayout></ProtectedRoute>} />
         <Route path="/invites" element={<ProtectedRoute><AdminRoute><AppLayout><InvitesPage /></AppLayout></AdminRoute></ProtectedRoute>} />
-        <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );

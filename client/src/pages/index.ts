@@ -5,3 +5,4 @@ export { EmpresasPage } from './EmpresasPage';
 export { CarretillasPage } from './CarretillasPage';
 export { MantenimientosPage } from './MantenimientosPage';
 export { InvitesPage } from './InvitesPage';
+export { LandingPage } from './LandingPage';
