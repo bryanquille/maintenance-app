@@ -16,6 +16,7 @@ export const InvitesPage: React.FC = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [showEmpresa, setShowEmpresa] = useState(false);
 
   const [formData, setFormData] = useState<CreateInviteInput>({
     email: '',
@@ -50,13 +51,28 @@ export const InvitesPage: React.FC = () => {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    
+    if (name === 'rol') {
+      const shouldShowEmpresa = value === 'lector';
+      setShowEmpresa(shouldShowEmpresa);
+      if (!shouldShowEmpresa) {
+        setFormData(prev => ({ ...prev, empresaId: '' }));
+      }
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.email || !formData.nombre || !formData.rol || !formData.empresaId) {
+    
+    if (!formData.email || !formData.nombre || !formData.rol) {
       setError('Todos los campos son obligatorios');
+      return;
+    }
+    
+    if (formData.rol === 'lector' && !formData.empresaId) {
+      setError('La empresa es requerida para el rol de lector');
       return;
     }
 
@@ -182,7 +198,7 @@ export const InvitesPage: React.FC = () => {
 
   return (
     <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
         <h1 className="text-2xl font-bold text-gray-900">Invitaciones</h1>
         <span className="text-sm text-gray-500">
           Solo administradores pueden crear invitaciones
@@ -217,17 +233,19 @@ export const InvitesPage: React.FC = () => {
             onChange={handleChange}
             options={rolOptions}
           />
-          <Select
-            label="Empresa"
-            name="empresaId"
-            value={formData.empresaId}
-            onChange={handleChange}
-            options={[
-              { value: '', label: 'Seleccionar empresa' },
-              ...empresaOptions,
-            ]}
-            required
-          />
+          {showEmpresa && (
+            <Select
+              label="Empresa"
+              name="empresaId"
+              value={formData.empresaId}
+              onChange={handleChange}
+              options={[
+                { value: '', label: 'Seleccionar empresa' },
+                ...empresaOptions,
+              ]}
+              required={showEmpresa}
+            />
+          )}
           <div className="md:col-span-2">
             {error && (
               <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm mb-4">

@@ -238,6 +238,9 @@ export const LandingPage: React.FC = () => {
           >
             Crear cuenta
           </Link>
+          <p className="mt-4 text-sm text-blue-200">
+            El registro requiere una invitación previa proporcionada por un administrador.
+          </p>
         </div>
       </section>
 
