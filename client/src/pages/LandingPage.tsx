@@ -47,7 +47,7 @@ const features = [
       </svg>
     ),
     title: 'Seguridad Avanzada',
-    description: 'JWT, contraseñas encriptadas y validación de datos con Zod.',
+    description: 'Tu información protegida con acceso seguro y verificación de datos.',
   },
 ];
 
@@ -69,11 +69,34 @@ const roles = [
   },
 ];
 
-const securityItems = [
-  { icon: '🔐', text: 'Autenticación JWT' },
-  { icon: '🔑', text: 'Contraseñas encriptadas con bcrypt' },
-  { icon: '✅', text: 'Validación de datos con Zod' },
-  { icon: '🏢', text: 'Aislamiento por empresa' },
+const valueItems = [
+  {
+    icon: (
+      <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+      </svg>
+    ),
+    title: 'Evita pérdida de información',
+    description: 'Todos los registros quedan guardados y organizados para que nunca pierdas datos importantes',
+  },
+  {
+    icon: (
+      <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+      </svg>
+    ),
+    title: 'Mejor toma de decisiones',
+    description: 'Accede rápidamente al historial y estado de tus equipos para actuar a tiempo',
+  },
+  {
+    icon: (
+      <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+      </svg>
+    ),
+    title: 'Trabajo más ordenado',
+    description: 'Estandariza el registro de mantenimientos y mejora la gestión de tu equipo',
+  },
 ];
 
 export const LandingPage: React.FC = () => {
@@ -83,7 +106,7 @@ export const LandingPage: React.FC = () => {
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <Link to="/" className="flex items-center gap-2">
               <img src="/images/logo/maintika-logo.png" alt="Maintika" className="h-10 w-10 object-contain" />
@@ -94,16 +117,16 @@ export const LandingPage: React.FC = () => {
                 <span className="text-black">ntika</span>
               </span>
             </Link>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 sm:gap-4">
               <Link
                 to="/login"
-                className="text-gray-600 hover:text-blue-600 font-medium transition-colors duration-200"
+                className="text-gray-600 hover:text-blue-600 text-sm sm:text-base font-medium transition-colors duration-200 whitespace-nowrap"
               >
                 Iniciar sesión
               </Link>
               <Link
                 to="/register"
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-200"
+                className="bg-blue-600 hover:bg-blue-700 text-white text-sm sm:text-base px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg font-medium transition-colors duration-200"
               >
                 Registrarse
               </Link>
@@ -130,8 +153,8 @@ export const LandingPage: React.FC = () => {
             Sistema de mantenimiento de carretillas hidráulicas
           </p>
           <p className="text-lg text-gray-500 mb-8 max-w-2xl mx-auto">
-            Gestiona carretillas, mantenimientos y empresas en una sola plataforma.
-           _control total con seguridad avanzada.
+Gestiona carretillas, mantenimientos y empresas en una sola plataforma.
+            Control total con seguridad avanzada.
           </p>
           <div className="flex justify-center gap-4">
             <Link
@@ -200,23 +223,24 @@ export const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Security Section */}
+      {/* Value Section */}
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-center text-gray-900 mb-4">
-            Seguridad primero
+            Pensado para empresas que necesitan control real
           </h2>
           <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
-            Tu información protegida con las mejores prácticas de seguridad
+            Maintika te ayuda a mantener el orden, evitar errores y tener siempre información confiable
           </p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {securityItems.map((item, index) => (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {valueItems.map((item, index) => (
               <div
                 key={index}
-                className="bg-white p-4 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-200 flex items-center gap-3"
+                className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-200"
               >
-                <span className="text-2xl">{item.icon}</span>
-                <span className="text-gray-700 font-medium">{item.text}</span>
+                <div className="text-blue-600 mb-4">{item.icon}</div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">{item.title}</h3>
+                <p className="text-gray-600">{item.description}</p>
               </div>
             ))}
           </div>
