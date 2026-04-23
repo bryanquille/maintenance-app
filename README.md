@@ -46,6 +46,10 @@ La aplicación opera bajo un modelo multiempresa donde cada organización tiene 
 - **Historial por carretilla** - Visualización completa del historial de mantenimientos de cada máquina
 - **Filtros y búsqueda** - Búsqueda de carretillas por tipo, modelo, número de serie o ID
 - **Control de roles** - Roles de admin, técnico y lector con permisos diferenciados
+- **Sistema de Invitaciones** - Registro mediante códigos únicos generados por administradores
+- **Valores por rol** - Campo empresaId requerido solo para rol 'lector', opcional para admin y técnico
+- **Landing Page pública** - Página de presentación con branding Maintika, optimización responsive mobile y contenido orientado al usuario
+- **Seguridad Avanzada** - Acceso seguro con verificación de datos y protección de información
 
 ---
 
@@ -118,6 +122,7 @@ El backend expone una API RESTful que sigue los principios de diseño convencion
 ```
 Empresa (1) ──────< Carretilla (N)
 Carretilla (1) ──< Mantenimiento (N)
+Empresa (1) ────< Invitacion (N)
 ```
 
 Cada empresa puede tener múltiples carretillas, y cada carretilla puede tener múltiples mantenimientos. Esta estructura garantiza el aislamiento de datos entre empresas.
@@ -190,10 +195,12 @@ maintanance-app/
 │   │   ├── pages/            # Páginas de la aplicación
 │   │   │   ├── LoginPage.tsx
 │   │   │   ├── RegisterPage.tsx
+│   │   │   ├── LandingPage.tsx
 │   │   │   ├── DashboardPage.tsx
 │   │   │   ├── EmpresasPage.tsx
 │   │   │   ├── CarretillasPage.tsx
-│   │   │   └── MantenimientosPage.tsx
+│   │   │   ├── MantenimientosPage.tsx
+│   │   │   └── InvitesPage.tsx
 │   │   ├── services/         # Capa de comunicación API
 │   │   │   └── api.ts
 │   │   ├── store/             # Estado global Zustand
@@ -226,7 +233,7 @@ maintanance-app/
 - **models**: Modelos Mongoose con esquemas y documentos de MongoDB
 - **routes**: Definición de endpoints API REST
 - **middlewares**: Middleware de autenticación JWT y manejo de errores
-- **validators**: Esquemas de validación Zod para entrada de datos
+- **validators**: Esquemas de validación Zod para entrada de datos, incluyendo validación condicional según rol
 
 ---
 
@@ -396,6 +403,14 @@ CORS_ORIGIN=https://tu-app.onrender.com
 | PUT | `/api/mantenimientos/:id` | Actualizar mantenimiento |
 | DELETE | `/api/mantenimientos/:id` | Eliminar mantenimiento |
 
+### Invitaciones
+
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| GET | `/api/invites` | Listar invitaciones activas (solo admin) |
+| POST | `/api/invites` | Crear nueva invitación |
+| DELETE | `/api/invites/:id` | Eliminiar invitación |
+
 Todos los endpoints (excepto registro y login) requieren autenticación JWT mediante header `Authorization: Bearer <token>`.
 
 ---
@@ -430,6 +445,12 @@ El stack MERN (MongoDB, Express, React, Node.js) fue seleccionado por:
 - **Menor bundle size**: No añade peso extra a la aplicación
 - **Suficiente funcionalidad**: Cumple todos los requisitos de la aplicación
 - **Simplicidad**: API moderna y Promise-based
+
+### ¿Por qué Zod con validación condicional?
+
+- **Validación en tiempo de ejecución**: Esquemas definidos en backend se validan antes de procesar
+- **Flexibilidad según contexto**: El campo empresaId es obligatorio solo para rol 'lector', opcional para admin/técnico
+- **Mensajes de error claros**: Validación robusta con feedback específico para el usuario
 
 ---
 
