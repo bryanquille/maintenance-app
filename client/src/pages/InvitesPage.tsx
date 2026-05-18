@@ -197,10 +197,10 @@ export const InvitesPage: React.FC = () => {
   if (loading) return <Loader />;
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-6 space-y-6 bg-gray-50 dark:bg-gray-900 min-h-screen">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-        <h1 className="text-2xl font-bold text-gray-900">Invitaciones</h1>
-        <span className="text-sm text-gray-500">
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Invitaciones</h1>
+        <span className="text-sm text-gray-500 dark:text-gray-400">
           Solo administradores pueden crear invitaciones
         </span>
       </div>

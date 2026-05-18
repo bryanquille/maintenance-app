@@ -170,12 +170,12 @@ export const EmpresasPage: React.FC = () => {
   const canManage = user?.rol === 'admin';
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Empresas</h1>
-            <p className="text-gray-600">Gestión de empresas</p>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Empresas</h1>
+            <p className="text-gray-600 dark:text-gray-400">Gestión de empresas</p>
           </div>
           {canManage && (
             <Button onClick={openCreateModal}>Crear Empresa</Button>

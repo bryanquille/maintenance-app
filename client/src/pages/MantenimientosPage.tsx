@@ -297,15 +297,15 @@ export const MantenimientosPage: React.FC = () => {
   const canManage = user?.rol !== 'lector';
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center mb-6">
           <div>
-            <button onClick={() => navigate('/carretillas')} className="text-blue-600 hover:text-blue-700 text-sm mb-2">
+            <button onClick={() => navigate('/carretillas')} className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm mb-2">
               ← Volver a Carretillas
             </button>
-            <h1 className="text-2xl font-bold text-gray-900">Mantenimientos</h1>
-            <p className="text-gray-600">
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Mantenimientos</h1>
+            <p className="text-gray-600 dark:text-gray-400">
               {carretilla.tipoDeMaquina} - {carretilla.modelo} (Serie: {carretilla.nroSerie})
             </p>
           </div>

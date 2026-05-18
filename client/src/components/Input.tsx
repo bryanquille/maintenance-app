@@ -26,7 +26,7 @@ export const Input: React.FC<InputProps> = ({
   return (
     <div className={`w-full ${containerClassName}`}>
       {label && (
-        <label htmlFor={inputId} className="block text-sm font-medium text-gray-700 mb-1">
+        <label htmlFor={inputId} className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
           {label}
         </label>
       )}
@@ -34,8 +34,8 @@ export const Input: React.FC<InputProps> = ({
         <input
           id={inputId}
           type={inputType}
-          className={`w-full px-3 py-2 pr-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-            error ? 'border-red-500' : 'border-gray-300'
+          className={`w-full px-3 py-2 pr-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white ${
+            error ? 'border-red-500 dark:border-red-400' : 'border-gray-300 dark:border-gray-600'
           } ${className}`}
           {...props}
         />
@@ -43,7 +43,7 @@ export const Input: React.FC<InputProps> = ({
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
+            className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 focus:outline-none"
             aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
           >
             {showPassword ? (
@@ -59,7 +59,7 @@ export const Input: React.FC<InputProps> = ({
           </button>
         )}
       </div>
-      {error && <p className="mt-1 text-sm text-red-600">{error}</p>}
+      {error && <p className="mt-1 text-sm text-red-600 dark:text-red-400">{error}</p>}
     </div>
   );
 };
@@ -76,14 +76,14 @@ export const Select: React.FC<SelectProps> = ({ label, error, options, className
   return (
     <div className="w-full">
       {label && (
-        <label htmlFor={selectId} className="block text-sm font-medium text-gray-700 mb-1">
+        <label htmlFor={selectId} className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
           {label}
         </label>
       )}
       <select
         id={selectId}
-        className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-          error ? 'border-red-500' : 'border-gray-300'
+        className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white ${
+          error ? 'border-red-500 dark:border-red-400' : 'border-gray-300 dark:border-gray-600'
         } ${className}`}
         {...props}
       >
@@ -93,7 +93,7 @@ export const Select: React.FC<SelectProps> = ({ label, error, options, className
           </option>
         ))}
       </select>
-      {error && <p className="mt-1 text-sm text-red-600">{error}</p>}
+      {error && <p className="mt-1 text-sm text-red-600 dark:text-red-400">{error}</p>}
     </div>
   );
 };
@@ -109,18 +109,18 @@ export const Textarea: React.FC<TextareaProps> = ({ label, error, className = ''
   return (
     <div className="w-full">
       {label && (
-        <label htmlFor={textareaId} className="block text-sm font-medium text-gray-700 mb-1">
+        <label htmlFor={textareaId} className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
           {label}
         </label>
       )}
       <textarea
         id={textareaId}
-        className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-          error ? 'border-red-500' : 'border-gray-300'
+        className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white ${
+          error ? 'border-red-500 dark:border-red-400' : 'border-gray-300 dark:border-gray-600'
         } ${className}`}
         {...props}
       />
-      {error && <p className="mt-1 text-sm text-red-600">{error}</p>}
+      {error && <p className="mt-1 text-sm text-red-600 dark:text-red-400">{error}</p>}
     </div>
   );
 };
@@ -137,11 +137,11 @@ export const Checkbox: React.FC<CheckboxProps> = ({ label, className = '', id, .
       <input
         id={checkboxId}
         type="checkbox"
-        className={`w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 ${className}`}
+        className={`w-4 h-4 text-blue-600 border-gray-300 dark:border-gray-600 rounded focus:ring-blue-500 bg-white dark:bg-gray-800 ${className}`}
         {...props}
       />
       {label && (
-        <label htmlFor={checkboxId} className="text-sm text-gray-700">
+        <label htmlFor={checkboxId} className="text-sm text-gray-700 dark:text-gray-300">
           {label}
         </label>
       )}

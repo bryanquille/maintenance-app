@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { ThemeToggle } from '../components/ThemeToggle';
 
 const features = [
   {
@@ -103,24 +104,25 @@ export const LandingPage: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header */}
-      <header className="bg-white shadow-sm">
+      <header className="bg-white dark:bg-gray-800 shadow-sm dark:shadow-md">
         <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <Link to="/" className="flex items-center gap-2">
               <img src="/images/logo/maintika-logo.png" alt="Maintika" className="h-10 w-10 object-contain" />
               <span className="text-xl font-bold">
-                <span className="text-black">M</span>
-                <span className="text-black">a</span>
+                <span className="text-black dark:text-white">M</span>
+                <span className="text-black dark:text-white">a</span>
                 <span className="text-[#003FC5]">i</span>
-                <span className="text-black">ntika</span>
+                <span className="text-black dark:text-white">ntika</span>
               </span>
             </Link>
             <div className="flex items-center gap-2 sm:gap-4">
+              <ThemeToggle />
               <Link
                 to="/login"
-                className="text-gray-600 hover:text-blue-600 text-sm sm:text-base font-medium transition-colors duration-200 whitespace-nowrap"
+                className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 text-sm sm:text-base font-medium transition-colors duration-200 whitespace-nowrap"
               >
                 Iniciar sesión
               </Link>
@@ -136,24 +138,24 @@ export const LandingPage: React.FC = () => {
       </header>
 
       {/* Hero Section */}
-      <section className="bg-white py-20">
+      <section className="bg-white dark:bg-gray-800 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <img
             src="/images/logo/maintika-logo.png"
             alt="Maintika"
             className="mx-auto h-32 w-32 object-contain mb-8"
           />
-          <h1 className="text-5xl font-extrabold text-gray-900 mb-4">
-            <span className="text-black">M</span>
-            <span className="text-black">a</span>
+          <h1 className="text-5xl font-extrabold text-gray-900 dark:text-white mb-4">
+            <span className="text-black dark:text-white">M</span>
+            <span className="text-black dark:text-white">a</span>
             <span className="text-[#003FC5]">i</span>
-            <span className="text-black">ntika</span>
+            <span className="text-black dark:text-white">ntika</span>
           </h1>
-          <p className="text-2xl text-gray-600 mb-4">
+          <p className="text-2xl text-gray-600 dark:text-gray-300 mb-4">
             Sistema de mantenimiento de carretillas hidráulicas
           </p>
-          <p className="text-lg text-gray-500 mb-8 max-w-2xl mx-auto">
-Gestiona carretillas, mantenimientos y empresas en una sola plataforma.
+          <p className="text-lg text-gray-500 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
+            Gestiona carretillas, mantenimientos y empresas en una sola plataforma.
             Control total con seguridad avanzada.
           </p>
           <div className="flex justify-center gap-4">
@@ -165,7 +167,7 @@ Gestiona carretillas, mantenimientos y empresas en una sola plataforma.
             </Link>
             <Link
               to="/register"
-              className="bg-white hover:bg-gray-50 text-blue-600 border-2 border-blue-600 px-8 py-3 rounded-lg font-semibold text-lg transition-all duration-200 hover:shadow-md"
+              className="bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-blue-600 dark:text-blue-400 border-2 border-blue-600 dark:border-blue-400 px-8 py-3 rounded-lg font-semibold text-lg transition-all duration-200 hover:shadow-md"
             >
               Registrarse
             </Link>
@@ -174,23 +176,23 @@ Gestiona carretillas, mantenimientos y empresas en una sola plataforma.
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-gray-50 dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center text-gray-900 mb-4">
+          <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-4">
             Todas las funcionalidades que necesitas
           </h2>
-          <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+          <p className="text-center text-gray-600 dark:text-gray-400 mb-12 max-w-2xl mx-auto">
             Una plataforma completa para gestionar tu flota de carretillas hidráulicas
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.map((feature, index) => (
               <div
                 key={index}
-                className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-200"
+                className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md dark:shadow-lg hover:shadow-lg dark:hover:shadow-xl hover:-translate-y-1 transition-all duration-200"
               >
-                <div className="text-blue-600 mb-4">{feature.icon}</div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">{feature.title}</h3>
-                <p className="text-gray-600">{feature.description}</p>
+                <div className="text-blue-600 dark:text-blue-400 mb-4">{feature.icon}</div>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">{feature.title}</h3>
+                <p className="text-gray-600 dark:text-gray-300">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -198,25 +200,25 @@ Gestiona carretillas, mantenimientos y empresas en una sola plataforma.
       </section>
 
       {/* Roles Section */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-white dark:bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center text-gray-900 mb-4">
+          <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-4">
             Roles definidos para cada usuario
           </h2>
-          <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+          <p className="text-center text-gray-600 dark:text-gray-400 mb-12 max-w-2xl mx-auto">
             Control de acceso preciso según el rol de cada usuario en la organización
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {roles.map((role, index) => (
               <div
                 key={index}
-                className="bg-gray-50 p-6 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-200"
+                className="bg-gray-50 dark:bg-gray-700 p-6 rounded-xl shadow-md dark:shadow-lg hover:shadow-lg dark:hover:shadow-xl hover:-translate-y-1 transition-all duration-200"
               >
                 <div className={`${role.color} w-12 h-12 rounded-lg flex items-center justify-center mb-4`}>
                   <span className="text-white text-xl font-bold">{index + 1}</span>
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">{role.title}</h3>
-                <p className="text-gray-600">{role.description}</p>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">{role.title}</h3>
+                <p className="text-gray-600 dark:text-gray-300">{role.description}</p>
               </div>
             ))}
           </div>
@@ -224,23 +226,23 @@ Gestiona carretillas, mantenimientos y empresas en una sola plataforma.
       </section>
 
       {/* Value Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-gray-50 dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center text-gray-900 mb-4">
+          <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-4">
             Pensado para empresas que necesitan control real
           </h2>
-          <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+          <p className="text-center text-gray-600 dark:text-gray-400 mb-12 max-w-2xl mx-auto">
             Maintika te ayuda a mantener el orden, evitar errores y tener siempre información confiable
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {valueItems.map((item, index) => (
               <div
                 key={index}
-                className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-200"
+                className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md dark:shadow-lg hover:shadow-lg dark:hover:shadow-xl hover:-translate-y-1 transition-all duration-200"
               >
-                <div className="text-blue-600 mb-4">{item.icon}</div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">{item.title}</h3>
-                <p className="text-gray-600">{item.description}</p>
+                <div className="text-blue-600 dark:text-blue-400 mb-4">{item.icon}</div>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">{item.title}</h3>
+                <p className="text-gray-600 dark:text-gray-300">{item.description}</p>
               </div>
             ))}
           </div>
@@ -269,7 +271,7 @@ Gestiona carretillas, mantenimientos y empresas en una sola plataforma.
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 py-8">
+      <footer className="bg-gray-900 dark:bg-gray-950 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
             <img src="/images/logo/maintika-logo.png" alt="Maintika" className="h-8 w-8 object-contain" />
@@ -280,7 +282,7 @@ Gestiona carretillas, mantenimientos y empresas en una sola plataforma.
               <span className="text-white">ntika</span>
             </span>
           </div>
-          <p className="text-gray-400">
+          <p className="text-gray-400 dark:text-gray-500">
             © {currentYear} Maintika. Todos los derechos reservados.
           </p>
         </div>
