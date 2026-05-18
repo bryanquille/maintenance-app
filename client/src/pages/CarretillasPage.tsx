@@ -227,43 +227,52 @@ export const CarretillasPage: React.FC = () => {
   const canManage = user?.rol !== 'lector';
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center mb-6">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Carretillas</h1>
-            <p className="text-gray-600 dark:text-gray-400">{empresaActiva.nombre}</p>
+            <h1 className="text-2xl font-semibold text-gray-900 dark:text-white tracking-tight">Carretillas</h1>
+            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{empresaActiva.nombre}</p>
           </div>
           {canManage && (
-            <Button onClick={openCreateModal}>Agregar Carretilla</Button>
+            <Button onClick={openCreateModal}>
+              <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              </svg>
+              Agregar
+            </Button>
           )}
         </div>
 
-        <Card className="mb-6">
-          <div className="p-4 flex flex-wrap gap-4">
-            <div className="flex-1 min-w-[200px]">
-              <Input
-                placeholder="Buscar..."
-                value={filters.search}
-                name="search"
-                onChange={handleFilterChange}
-              />
-            </div>
-            <div className="w-[200px]">
-              <Select
-                value={filters.estado}
-                name="estado"
-                onChange={handleFilterChange}
-                options={[
-                  { value: '', label: 'Todos los estados' },
-                  { value: 'activa', label: 'Activa' },
-                  { value: 'inactiva', label: 'Inactiva' },
-                  { value: 'mantenimiento', label: 'Mantenimiento' },
-                ]}
-              />
+        {/* Filters */}
+        <div className="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 mb-6">
+          <div className="p-4">
+            <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex-1">
+                <Input
+                  placeholder="Buscar por tipo, modelo o serie..."
+                  value={filters.search}
+                  name="search"
+                  onChange={handleFilterChange}
+                />
+              </div>
+              <div className="w-full sm:w-[200px]">
+                <Select
+                  value={filters.estado}
+                  name="estado"
+                  onChange={handleFilterChange}
+                  options={[
+                    { value: '', label: 'Todos los estados' },
+                    { value: 'activa', label: 'Activa' },
+                    { value: 'inactiva', label: 'Inactiva' },
+                    { value: 'mantenimiento', label: 'Mantenimiento' },
+                  ]}
+                />
+              </div>
             </div>
           </div>
-        </Card>
+        </div>
 
         <Card>
           {carretillas.length === 0 ? (
@@ -348,7 +357,7 @@ export const CarretillasPage: React.FC = () => {
               />
             </div>
             <div className="flex justify-end gap-3 pt-4">
-              <Button type="button" variant="outline" onClick={() => setIsModalOpen(false)}>
+              <Button type="button" variant="ghost" onClick={() => setIsModalOpen(false)}>
                 Cancelar
               </Button>
               <Button type="submit" loading={saving}>

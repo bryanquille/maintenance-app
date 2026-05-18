@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
 import { empresaApi, carretillaApi, mantenimientoApi } from '../services/api';
-import { Card, Badge, Button, Select, Loader, EmptyState } from '../components';
+import { Badge, Button, Select, Loader, EmptyState } from '../components';
 import type { Empresa, Carretilla, Mantenimiento } from '../types';
 
 export const DashboardPage: React.FC = () => {
@@ -75,7 +75,7 @@ export const DashboardPage: React.FC = () => {
 
   if (loading && empresas.length === 0) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center">
         <Loader text="Cargando dashboard..." />
       </div>
     );
@@ -83,7 +83,7 @@ export const DashboardPage: React.FC = () => {
 
   if (empresas.length === 0) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center">
         <EmptyState
           title="No hay empresas"
           message="Contacta al administrador para que cree una empresa"
@@ -96,31 +96,41 @@ export const DashboardPage: React.FC = () => {
     totalCarretillas: carretillas.length,
     activas: carretillas.filter((c) => c.estado === 'activa').length,
     mantenimiento: carretillas.filter((c) => c.estado === 'mantenimiento').length,
+    inactiva: carretillas.filter((c) => c.estado === 'inactiva').length,
     totalMantenimientos: mantenimientos.length,
   };
 
-  const estadoMap: Record<string, 'success' | 'warning' | 'danger' | 'default'> = {
-    activa: 'success',
-    inactiva: 'default',
-    mantenimiento: 'warning',
+  const getStatusColor = (estado: string) => {
+    switch (estado) {
+      case 'activa': return 'success';
+      case 'inactiva': return 'default';
+      case 'mantenimiento': return 'warning';
+      default: return 'default';
+    }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        {/* Page Header */}
         <div className="mb-8">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
-          <p className="text-gray-600 dark:text-gray-400">Resumen de {empresaActiva?.nombre}</p>
+          <h1 className="text-2xl font-semibold text-gray-900 dark:text-white tracking-tight">Dashboard</h1>
+          <p className="mt-1.5 text-sm text-gray-500 dark:text-gray-400">
+            Resumen de <span className="text-gray-700 dark:text-gray-300 font-medium">{empresaActiva?.nombre}</span>
+          </p>
         </div>
 
         {user?.rol === 'admin' && (
-          <div className="mb-6">
-            <Select
-              label="Seleccionar Empresa"
-              value={empresaActiva?._id || ''}
-              onChange={handleEmpresaChange}
-              options={empresas.map((e) => ({ value: e._id, label: e.nombre }))}
-            />
+          <div className="mb-8">
+            <div className="max-w-xs">
+              <Select
+                label="Empresa"
+                value={empresaActiva?._id || ''}
+                onChange={handleEmpresaChange}
+                options={empresas.map((e) => ({ value: e._id, label: e.nombre }))}
+              />
+            </div>
           </div>
         )}
 
@@ -128,87 +138,105 @@ export const DashboardPage: React.FC = () => {
           <Loader text="Cargando datos..." />
         ) : (
           <div className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <Card className="p-6">
-                <p className="text-sm text-gray-600">Total Carretillas</p>
-                <p className="text-3xl font-bold text-gray-900">{stats.totalCarretillas}</p>
-              </Card>
-              <Card className="p-6">
-                <p className="text-sm text-gray-600">Activas</p>
-                <p className="text-3xl font-bold text-green-600">{stats.activas}</p>
-              </Card>
-              <Card className="p-6">
-                <p className="text-sm text-gray-600">En Mantenimiento</p>
-                <p className="text-3xl font-bold text-yellow-600">{stats.mantenimiento}</p>
-              </Card>
-              <Card className="p-6">
-                <p className="text-sm text-gray-600">Total Mantenimientos</p>
-                <p className="text-3xl font-bold text-blue-600">{stats.totalMantenimientos}</p>
-              </Card>
+            
+            {/* Stats Grid - Clean borders, no shadows */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 p-4">
+                <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Total Carretillas</p>
+                <p className="mt-2 text-2xl font-semibold text-gray-900 dark:text-white">{stats.totalCarretillas}</p>
+              </div>
+              
+              <div className="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 p-4">
+                <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Activas</p>
+                <p className="mt-2 text-2xl font-semibold text-emerald-600 dark:text-emerald-400">{stats.activas}</p>
+              </div>
+              
+              <div className="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 p-4">
+                <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">En Mantenimiento</p>
+                <p className="mt-2 text-2xl font-semibold text-amber-600 dark:text-amber-400">{stats.mantenimiento}</p>
+              </div>
+              
+              <div className="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 p-4">
+                <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Mantenimientos</p>
+                <p className="mt-2 text-2xl font-semibold text-gray-900 dark:text-white">{stats.totalMantenimientos}</p>
+              </div>
             </div>
 
+            {/* Content Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <Card className="p-6">
-                <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-lg font-semibold text-gray-900">Carretillas</h2>
-                  <Button size="sm" onClick={() => navigate('/carretillas')}>
-                    Ver Todas
+              
+              {/* Carretillas Card */}
+              <div className="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800">
+                <div className="flex items-center justify-between px-5 py-4 border-b border-gray-200 dark:border-gray-800">
+                  <h2 className="text-sm font-semibold text-gray-900 dark:text-white">Carretillas</h2>
+                  <Button size="sm" variant="ghost" onClick={() => navigate('/carretillas')}>
+                    Ver todas
                   </Button>
                 </div>
-                {carretillas.length === 0 ? (
-                  <p className="text-gray-500">No hay carretillas</p>
-                ) : (
-                  <div className="space-y-3">
-                    {carretillas.slice(0, 5).map((carretilla) => (
-                      <div
-                        key={carretilla._id}
-                        className="flex justify-between items-center p-3 bg-gray-50 rounded-lg"
-                      >
-                        <div>
-                          <p className="font-medium text-gray-900">
-                            {carretilla.tipoDeMaquina} - {carretilla.modelo}
-                          </p>
-                          <p className="text-sm text-gray-500">
-                            Serie: {carretilla.nroSerie} | ID: {carretilla.idMaquina}
-                          </p>
+                <div className="p-4">
+                  {carretillas.length === 0 ? (
+                    <p className="text-sm text-gray-500 dark:text-gray-400 text-center py-8">No hay carretillas registradas</p>
+                  ) : (
+                    <div className="divide-y divide-gray-100 dark:divide-gray-800 -mx-4 px-4">
+                      {carretillas.slice(0, 5).map((carretilla) => (
+                        <div
+                          key={carretilla._id}
+                          className="py-3 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-800/50 -mx-2 px-2 rounded-md transition-colors cursor-pointer"
+                          onClick={() => navigate('/carretillas')}
+                        >
+                          <div className="min-w-0 flex-1">
+                            <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
+                              {carretilla.tipoDeMaquina} - {carretilla.modelo}
+                            </p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400 font-mono mt-0.5">
+                              {carretilla.nroSerie}
+                            </p>
+                          </div>
+                          <Badge variant={getStatusColor(carretilla.estado)}>{carretilla.estado}</Badge>
                         </div>
-                        <Badge variant={estadoMap[carretilla.estado]}>{carretilla.estado}</Badge>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </Card>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
 
-              <Card className="p-6">
-                <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-lg font-semibold text-gray-900">Últimos Mantenimientos</h2>
-                  <Button size="sm" onClick={() => navigate('/mantenimientos')}>
-                    Ver Todos
+              {/* Mantenimientos Card */}
+              <div className="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800">
+                <div className="flex items-center justify-between px-5 py-4 border-b border-gray-200 dark:border-gray-800">
+                  <h2 className="text-sm font-semibold text-gray-900 dark:text-white">Últimos Mantenimientos</h2>
+                  <Button size="sm" variant="ghost" onClick={() => navigate('/mantenimientos')}>
+                    Ver todos
                   </Button>
                 </div>
-                {mantenimientos.length === 0 ? (
-                  <p className="text-gray-500">No hay mantenimientos</p>
-                ) : (
-                  <div className="space-y-3">
-                    {mantenimientos.slice(0, 5).map((mant) => (
-                      <div
-                        key={mant._id}
-                        className="flex justify-between items-center p-3 bg-gray-50 rounded-lg"
-                      >
-                        <div>
-                          <p className="font-medium text-gray-900">{mant.tipoServicio}</p>
-                          <p className="text-sm text-gray-500">
-                            {new Date(mant.fecha).toLocaleDateString('es-ES')}
-                          </p>
+                <div className="p-4">
+                  {mantenimientos.length === 0 ? (
+                    <p className="text-sm text-gray-500 dark:text-gray-400 text-center py-8">No hay mantenimientos registrados</p>
+                  ) : (
+                    <div className="divide-y divide-gray-100 dark:divide-gray-800 -mx-4 px-4">
+                      {mantenimientos.slice(0, 5).map((mant) => (
+                        <div
+                          key={mant._id}
+                          className="py-3 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-800/50 -mx-2 px-2 rounded-md transition-colors cursor-pointer"
+                          onClick={() => navigate('/mantenimientos')}
+                        >
+                          <div className="min-w-0 flex-1">
+                            <p className="text-sm font-medium text-gray-900 dark:text-white">
+                              {mant.tipoServicio}
+                            </p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                              {new Date(mant.fecha).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' })}
+                            </p>
+                          </div>
+                          <Badge variant="info">
+                            {(mant.carretillaId as Carretilla)?.modelo || '—'}
+                          </Badge>
                         </div>
-                        <Badge variant="info">
-                          {(mant.carretillaId as Carretilla)?.modelo || 'N/A'}
-                        </Badge>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </Card>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+
             </div>
           </div>
         )}

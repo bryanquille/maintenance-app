@@ -26,7 +26,7 @@ export const Input: React.FC<InputProps> = ({
   return (
     <div className={`w-full ${containerClassName}`}>
       {label && (
-        <label htmlFor={inputId} className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+        <label htmlFor={inputId} className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
           {label}
         </label>
       )}
@@ -34,8 +34,8 @@ export const Input: React.FC<InputProps> = ({
         <input
           id={inputId}
           type={inputType}
-          className={`w-full px-3 py-2 pr-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white ${
-            error ? 'border-red-500 dark:border-red-400' : 'border-gray-300 dark:border-gray-600'
+          className={`w-full px-3 py-2 pr-10 border rounded-md text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 ${
+            error ? 'border-red-500 dark:border-red-400 ring-1 ring-red-500/20' : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
           } ${className}`}
           {...props}
         />
@@ -76,14 +76,14 @@ export const Select: React.FC<SelectProps> = ({ label, error, options, className
   return (
     <div className="w-full">
       {label && (
-        <label htmlFor={selectId} className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+        <label htmlFor={selectId} className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
           {label}
         </label>
       )}
       <select
         id={selectId}
-        className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white ${
-          error ? 'border-red-500 dark:border-red-400' : 'border-gray-300 dark:border-gray-600'
+        className={`w-full px-3 py-2 border rounded-md text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-white ${
+          error ? 'border-red-500 dark:border-red-400 ring-1 ring-red-500/20' : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
         } ${className}`}
         {...props}
       >
@@ -109,14 +109,14 @@ export const Textarea: React.FC<TextareaProps> = ({ label, error, className = ''
   return (
     <div className="w-full">
       {label && (
-        <label htmlFor={textareaId} className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+        <label htmlFor={textareaId} className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
           {label}
         </label>
       )}
       <textarea
         id={textareaId}
-        className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white ${
-          error ? 'border-red-500 dark:border-red-400' : 'border-gray-300 dark:border-gray-600'
+        className={`w-full px-3 py-2 border rounded-md text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 ${
+          error ? 'border-red-500 dark:border-red-400 ring-1 ring-red-500/20' : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
         } ${className}`}
         {...props}
       />

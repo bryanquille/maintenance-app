@@ -297,20 +297,26 @@ export const MantenimientosPage: React.FC = () => {
   const canManage = user?.rol !== 'lector';
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center mb-6">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-6">
           <div>
-            <button onClick={() => navigate('/carretillas')} className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm mb-2">
+            <button onClick={() => navigate('/carretillas')} className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm mb-3">
               ← Volver a Carretillas
             </button>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Mantenimientos</h1>
-            <p className="text-gray-600 dark:text-gray-400">
-              {carretilla.tipoDeMaquina} - {carretilla.modelo} (Serie: {carretilla.nroSerie})
+            <h1 className="text-2xl font-semibold text-gray-900 dark:text-white tracking-tight">Mantenimientos</h1>
+            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+              {carretilla.tipoDeMaquina} - {carretilla.modelo} <span className="text-gray-400">· Serie: {carretilla.nroSerie}</span>
             </p>
           </div>
           {canManage && (
-            <Button onClick={openCreateModal}>Nuevo Mantenimiento</Button>
+            <Button onClick={openCreateModal}>
+              <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              </svg>
+              Nuevo
+            </Button>
           )}
         </div>
 
@@ -537,7 +543,7 @@ export const MantenimientosPage: React.FC = () => {
             </div>
 
             <div className="flex justify-end gap-3 pt-4">
-              <Button type="button" variant="outline" onClick={() => setIsModalOpen(false)}>
+              <Button type="button" variant="ghost" onClick={() => setIsModalOpen(false)}>
                 Cancelar
               </Button>
               <Button type="submit" loading={saving}>

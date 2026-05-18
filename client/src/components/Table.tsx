@@ -96,15 +96,15 @@ interface BadgeProps {
 
 export const Badge: React.FC<BadgeProps> = ({ children, variant = 'default' }) => {
   const variants = {
-    success: 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300',
-    warning: 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300',
-    danger: 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300',
-    info: 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300',
-    default: 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300',
+    success: 'bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800',
+    warning: 'bg-amber-50 dark:bg-amber-950 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800',
+    danger: 'bg-red-50 dark:bg-red-950 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800',
+    info: 'bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800',
+    default: 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-700',
   };
 
   return (
-    <span className={`inline-flex px-2 py-1 text-xs font-medium rounded ${variants[variant]}`}>
+    <span className={`inline-flex px-2.5 py-0.5 text-xs font-medium rounded-md ${variants[variant]}`}>
       {children}
     </span>
   );

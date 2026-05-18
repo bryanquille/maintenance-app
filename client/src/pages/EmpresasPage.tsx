@@ -170,15 +170,21 @@ export const EmpresasPage: React.FC = () => {
   const canManage = user?.rol === 'admin';
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center mb-6">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Empresas</h1>
-            <p className="text-gray-600 dark:text-gray-400">Gestión de empresas</p>
+            <h1 className="text-2xl font-semibold text-gray-900 dark:text-white tracking-tight">Empresas</h1>
+            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">Gestión de empresas</p>
           </div>
           {canManage && (
-            <Button onClick={openCreateModal}>Crear Empresa</Button>
+            <Button onClick={openCreateModal}>
+              <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              </svg>
+              Crear
+            </Button>
           )}
         </div>
 
@@ -258,7 +264,7 @@ export const EmpresasPage: React.FC = () => {
             <div className="flex justify-end gap-3 pt-4">
               <Button
                 type="button"
-                variant="outline"
+                variant="ghost"
                 onClick={() => setIsModalOpen(false)}
               >
                 Cancelar

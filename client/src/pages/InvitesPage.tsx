@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
 import { empresaApi } from '../services/api';
 import { inviteApi, type Invite, type CreateInviteInput } from '../services/inviteService';
-import { Button, Input, Select, Card, Table, Badge, Loader } from '../components';
+import { Button, Input, Select, Table, Badge, Loader } from '../components';
 import type { Empresa } from '../types';
 
 export const InvitesPage: React.FC = () => {
@@ -197,85 +197,90 @@ export const InvitesPage: React.FC = () => {
   if (loading) return <Loader />;
 
   return (
-    <div className="p-6 space-y-6 bg-gray-50 dark:bg-gray-900 min-h-screen">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Invitaciones</h1>
-        <span className="text-sm text-gray-500 dark:text-gray-400">
-          Solo administradores pueden crear invitaciones
-        </span>
-      </div>
-
-      <Card className="p-6">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Crear nueva invitación</h2>
-        <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <Input
-            label="Email"
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            placeholder="correo@ejemplo.com"
-          />
-          <Input
-            label="Nombre"
-            type="text"
-            name="nombre"
-            value={formData.nombre}
-            onChange={handleChange}
-            required
-            placeholder="Nombre completo"
-          />
-          <Select
-            label="Rol"
-            name="rol"
-            value={formData.rol}
-            onChange={handleChange}
-            options={rolOptions}
-          />
-          {showEmpresa && (
-            <Select
-              label="Empresa"
-              name="empresaId"
-              value={formData.empresaId}
-              onChange={handleChange}
-              options={[
-                { value: '', label: 'Seleccionar empresa' },
-                ...empresaOptions,
-              ]}
-              required={showEmpresa}
-            />
-          )}
-          <div className="md:col-span-2">
-            {error && (
-              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm mb-4">
-                {error}
-              </div>
-            )}
-            {success && (
-              <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg text-sm mb-4">
-                {success}
-              </div>
-            )}
-            <Button type="submit" loading={saving} disabled={saving}>
-              Crear invitación
-            </Button>
-          </div>
-        </form>
-      </Card>
-
-      <Card className="p-6">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">
-          Invitaciones existentes ({invites.length})
-        </h2>
-        {invites.length === 0 ? (
-          <p className="text-gray-500 text-center py-8">
-            No hay invitaciones creadas
+    <div className="p-6 bg-gray-50 dark:bg-gray-950 min-h-screen">
+      {/* Header */}
+      <div className="max-w-7xl mx-auto">
+        <div className="mb-6">
+          <h1 className="text-2xl font-semibold text-gray-900 dark:text-white tracking-tight">Invitaciones</h1>
+          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+            Solo administradores pueden crear invitaciones
           </p>
-        ) : (
-          <Table data={invites} columns={columns} />
-        )}
-      </Card>
+        </div>
+
+        {/* Create Form Card */}
+        <div className="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 p-6 mb-6">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Crear nueva invitación</h2>
+          <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Input
+              label="Email"
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              placeholder="correo@ejemplo.com"
+            />
+            <Input
+              label="Nombre"
+              type="text"
+              name="nombre"
+              value={formData.nombre}
+              onChange={handleChange}
+              required
+              placeholder="Nombre completo"
+            />
+            <Select
+              label="Rol"
+              name="rol"
+              value={formData.rol}
+              onChange={handleChange}
+              options={rolOptions}
+            />
+            {showEmpresa && (
+              <Select
+                label="Empresa"
+                name="empresaId"
+                value={formData.empresaId}
+                onChange={handleChange}
+                options={[
+                  { value: '', label: 'Seleccionar empresa' },
+                  ...empresaOptions,
+                ]}
+                required={showEmpresa}
+              />
+            )}
+            <div className="md:col-span-2">
+              {error && (
+                <div className="bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 px-4 py-3 rounded-md text-sm mb-4">
+                  {error}
+                </div>
+              )}
+              {success && (
+                <div className="bg-emerald-50 dark:bg-emerald-950 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 px-4 py-3 rounded-md text-sm mb-4">
+                  {success}
+                </div>
+              )}
+              <Button type="submit" loading={saving} disabled={saving}>
+                Crear invitación
+              </Button>
+            </div>
+          </form>
+        </div>
+
+        {/* Existing Invites Card */}
+        <div className="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 p-6">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+            Invitaciones existentes ({invites.length})
+          </h2>
+          {invites.length === 0 ? (
+            <p className="text-gray-500 dark:text-gray-400 text-center py-8">
+              No hay invitaciones creadas
+            </p>
+          ) : (
+            <Table data={invites} columns={columns} />
+          )}
+        </div>
+      </div>
     </div>
   );
 };

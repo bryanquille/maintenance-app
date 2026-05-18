@@ -28,7 +28,7 @@ export const Header: React.FC = () => {
             <span className="text-lg font-semibold">
               <span className="text-black dark:text-white">M</span>
               <span className="text-black dark:text-white">a</span>
-              <span className="text-[#003FC5]">i</span>
+              <span className="text-blue-500 dark:text-blue-400">i</span>
               <span className="text-black dark:text-white">ntika</span>
             </span>
           </Link>
