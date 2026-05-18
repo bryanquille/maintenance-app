@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
 import { authApi } from '../services/api';
@@ -23,6 +23,7 @@ export const RegisterPage: React.FC = () => {
   const [passwordError, setPasswordError] = useState('');
   const [loading, setLoading] = useState(false);
   const [showPasswordReqs, setShowPasswordReqs] = useState(false);
+  const passwordReqsRef = useRef<HTMLDivElement>(null);
   const { login } = useAuthStore();
   const navigate = useNavigate();
 
@@ -43,6 +44,20 @@ export const RegisterPage: React.FC = () => {
       }));
     }
   }, [searchParams]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        passwordReqsRef.current &&
+        !passwordReqsRef.current.contains(event.target as Node)
+      ) {
+        setShowPasswordReqs(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const isPreFilled = searchParams.has('code') || searchParams.has('email');
 
@@ -140,7 +155,7 @@ export const RegisterPage: React.FC = () => {
                 showToggle
               />
               {showPasswordReqs && formData.password && (
-                <div className="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-md shadow-lg p-3">
+                <div ref={passwordReqsRef} className="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-md shadow-lg p-3">
                   <p className="text-xs font-medium text-gray-700 mb-2">Requisitos de contraseña:</p>
                   <ul className="space-y-1">
                     {passwordChecks.map((req, idx) => (
